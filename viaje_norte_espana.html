@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viatge al Nord d'Espanya 2025</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --nord-verd: #2d5016;
+            --nord-blau: #1e40af;
+            --nord-daurat: #d97706;
+            --nord-crema: #fef3c7;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--nord-verd) 0%, var(--nord-blau) 100%);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><path d="M0,20 Q250,60 500,20 T1000,20 V100 H0 Z"></path></svg>') repeat-x;
+            background-size: 1000px 100px;
+            animation: wave 20s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-1000px); }
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .day-number {
+            background: var(--nord-verd);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .activity-item {
+            background: var(--nord-crema);
+            border-left: 4px solid var(--nord-daurat);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .location-badge {
+            background: var(--nord-blau);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .family-tip {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .distance-info {
+            background: #f3f4f6;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 8px 0;
+            font-size: 0.875rem;
+        }
+
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .route-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .route-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--nord-verd);
+        }
+
+        .route-stop {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 30px;
+        }
+
+        .route-stop::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            background: var(--nord-verd);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 2px var(--nord-verd);
+        }
+
+        .place-info {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 50vh;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+            
+            .route-timeline::before {
+                left: 20px;
+            }
+            
+            .route-stop {
+                padding-left: 50px;
+            }
+            
+            .route-stop::before {
+                left: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center text-white">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    Viatge al Nord d'Espanya
+                </h1>
+                <p class="text-xl md:text-2xl mb-6">
+                    Aventura familiar • 7-11 Agost 2025
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <div class="bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm">
+                        <span class="font-semibold">👩‍🦳 Montse</span>
+                    </div>
+                    <div class="bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm">
+                        <span class="font-semibold">👨 Xavier</span>
+                    </div>
+                    <div class="bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm">
+                        <span class="font-semibold">👦 Adrià</span>
+                    </div>
+                </div>
+                
+                <!-- Countdown -->
+                <div class="countdown-container max-w-md mx-auto">
+                    <div class="countdown-number" id="countdown-days">--</div>
+                    <p class="text-lg">dies per a l'aventura</p>
+                    <p class="text-sm opacity-90">Sortida: 7 d'agost, 2025</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Itinerari per Dies -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+                Itinerari Dia a Dia
+            </h2>
+            
+            <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Dia 7 - Dijous -->
+                <div class="day-card">
+                    <div class="p-6">
+                        <div class="day-number">7</div>
+                        <h3 class="text-xl font-bold mb-2 text-center">Dijous</h3>
+                        <div class="text-center mb-4">
+                            <span class="location-badge">Vilanova i la Geltrú → Bilbao → Santander</span>
+                        </div>
+                        <div class="distance-info">
+                            🚗 Vilanova - Bilbao: 610km (5h 45min)
+                        </div>
+                        <div class="distance-info">
+                            🚗 Bilbao - Santander: 107km (1h 15min)
+                        </div>
+                        
+                        <div class="space-y-3 mt-4">
+                            <div class="activity-item">
+                                <strong>Matí:</strong> Sortida des de Vilanova i la Geltrú
+                            </div>
+                            <div class="activity-item">
+                                <strong>Migdia:</strong> Arribada a Bilbao, dinar i passeig
+                            </div>
+                            <div class="activity-item">
+                                <strong>Tarda:</strong> Viatge a Santander
+                            </div>
+                            <div class="activity-item">
+                                <strong>Vespre:</strong> Check-in Hotel Ibis Santander
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">📍 Bilbao - Parada estratègica</h4>
+                            <p class="text-sm text-gray-600">Casco Viejo perfecte per caminar tranquil·lament. El Mercado de la Ribera és ideal per comprar provisions. Aparcar al centre comercial Zubiarte (gratuït 2h amb compra).</p>
+                        </div>
+                        
+                        <div class="family-tip">
+                            <strong>💡 Consell:</strong> Sortir d'hora per evitar el tràfic. Parades cada 2 hores. Montse pot portar coixí cervical per al viatge.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dia 8 - Divendres -->
+                <div class="day-card">
+                    <div class="p-6">
+                        <div class="day-number">8</div>
+                        <h3 class="text-xl font-bold mb-2 text-center">Divendres</h3>
+                        <div class="text-center mb-4">
+                            <span class="location-badge">Parc Natural de Cabárceno</span>
+                        </div>
+                        <div class="distance-info">
+                            🚗 Santander - Cabárceno: 17km (20min)
+                        </div>
+                        
+                        <div class="space-y-3 mt-4">
+                            <div class="activity-item">
+                                <strong>Matí:</strong> Comprar entrades online (obligatori)
+                            </div>
+                            <div class="activity-item">
+                                <strong>9:00-17:00:</strong> Parc Natural de Cabárceno
+                            </div>
+                            <div class="activity-item">
+                                <strong>Tarda:</strong> Exploració lliure del parc
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🦁 Cabárceno - Imprescindible</h4>
+                            <p class="text-sm text-gray-600 mb-2">Parc natural de 750 hectàrees amb més de 120 espècies. Es pot recórrer en cotxe o a peu.</p>
+                            <div class="highlight-box">
+                                <strong>Ruta recomanada:</strong>
+                                <ul class="text-sm mt-2 space-y-1">
+                                    <li>• Lleons i tigres (mirador accessible)</li>
+                                    <li>• Elefants (espectacle 12:00 i 16:00)</li>
+                                    <li>• Jirafes (zona de contacte)</li>
+                                    <li>• Rapinyaires (vol lliure 13:00)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="family-tip">
+                            <strong>🌟 Perfecte per a tots:</strong> Montse pot veure els animals des del cotxe. Adrià pot fotografiar i caminar. Xavier pot conduir entre zones.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dia 9 - Dissabte -->
+                <div class="day-card">
+                    <div class="p-6">
+                        <div class="day-number">9</div>
+                        <h3 class="text-xl font-bold mb-2 text-center">Dissabte</h3>
+                        <div class="text-center mb-4">
+                            <span class="location-badge">Ruta dels Pobles Màgics</span>
+                        </div>
+                        
+                        <div class="space-y-3 mt-4">
+                            <div class="activity-item">
+                                <strong>Matí:</strong> Santillana del Mar (9:00-11:30)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Migdia:</strong> Liérganes (12:00-14:00)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Tarda:</strong> Bosque de Secuoyas (15:30-17:00)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Vespre:</strong> Vega de Pas (17:30-19:00)
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🏰 Santillana del Mar</h4>
+                            <p class="text-sm text-gray-600">Coneguda com "la vila de les tres mentides" (ni és santa, ni plana, ni té mar). Carrers empedrats medieval perfectament conservats.</p>
+                            <div class="highlight-box">
+                                <strong>Visites:</strong> Col·legiata de Santa Juliana (s.XII), cases nobles, artesans locals. Aparcar al parking municipal (2€/hora).
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🌊 Liérganes</h4>
+                            <p class="text-sm text-gray-600">Poble balneari amb arquitectura montanyenca. Famós per la llegenda de l'home peix.</p>
+                            <div class="highlight-box">
+                                <strong>Visites:</strong> Pont romà, cases indianes, passejada pel riu Miera. Ideal per dinar (Restaurant El Rincón del Miera).
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🌲 Bosque de Secuoyas</h4>
+                            <p class="text-sm text-gray-600">Cabezón de la Sal. Únic bosc de sequoies d'Europa, plantades el 1940.</p>
+                            <div class="highlight-box">
+                                <strong>Ruta fàcil:</strong> Sender circular de 30 minuts, accessible per a Montse. Arbres de fins a 40 metres d'altura.
+                            </div>
+                        </div>
+                        
+                        <div class="family-tip">
+                            <strong>🗺️ Ruta lògica:</strong> Distàncies curtes entre pobles (15-20min). Santillana per cultura, Liérganes per natura, Secuoyas per l'espectacle.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dia 10 - Diumenge -->
+                <div class="day-card">
+                    <div class="p-6">
+                        <div class="day-number">10</div>
+                        <h3 class="text-xl font-bold mb-2 text-center">Diumenge</h3>
+                        <div class="text-center mb-4">
+                            <span class="location-badge">Santander i Voltants</span>
+                        </div>
+                        
+                        <div class="space-y-3 mt-4">
+                            <div class="activity-item">
+                                <strong>Matí:</strong> Centre de Santander (10:00-12:00)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Migdia:</strong> Platja del Sardinero (12:30-15:00)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Tarda:</strong> Palau de la Magdalena (15:30-17:00)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Vespre:</strong> Passeig marítim i cena
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🏛️ Centre de Santander</h4>
+                            <p class="text-sm text-gray-600">Catedral, Mercado de la Esperanza, Passeig de Pereda amb vistes a la badia.</p>
+                            <div class="highlight-box">
+                                <strong>Imprescindible:</strong> Jardines de Pereda, Centre Botín (arquitectura moderna), Moll de Calderón.
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🏖️ Platja del Sardinero</h4>
+                            <p class="text-sm text-gray-600">Platja urbana amb passeig marítim. Arquitectura d'indianos i hotels històrics.</p>
+                            <div class="highlight-box">
+                                <strong>Activitats:</strong> Passeig per la sorra, terrasses amb vistes, Gran Casino (exterior). Perfect per a fotos familiars.
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🏰 Palau de la Magdalena</h4>
+                            <p class="text-sm text-gray-600">Antiga residència reial d'estiu. Jardins amb vistes espectaculars de la badia.</p>
+                            <div class="highlight-box">
+                                <strong>Visita:</strong> Jardins gratuïts, interior amb visita guiada (5€). Mirador de la Magdalena amb vistes de 360°.
+                            </div>
+                        </div>
+                        
+                        <div class="family-tip">
+                            <strong>🌊 Dia relaxat:</strong> Ritme tranquil per a Montse. Adrià pot fer fotos arquitectòniques. Xavier pot gaudir de la gastronomia local.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dia 11 - Dilluns -->
+                <div class="day-card">
+                    <div class="p-6">
+                        <div class="day-number">11</div>
+                        <h3 class="text-xl font-bold mb-2 text-center">Dilluns</h3>
+                        <div class="text-center mb-4">
+                            <span class="location-badge">Santander → Vilanova i la Geltrú</span>
+                        </div>
+                        <div class="distance-info">
+                            🚗 Santander - Vilanova: 720km (7h amb parades)
+                        </div>
+                        
+                        <div class="space-y-3 mt-4">
+                            <div class="activity-item">
+                                <strong>Matí:</strong> Check-out i últim passeig
+                            </div>
+                            <div class="activity-item">
+                                <strong>10:00:</strong> Inici del viatge de tornada
+                            </div>
+                            <div class="activity-item">
+                                <strong>Migdia:</strong> Parada a Burgos (dinar i descans)
+                            </div>
+                            <div class="activity-item">
+                                <strong>Tarda:</strong> Continuació via Lleida
+                            </div>
+                            <div class="activity-item">
+                                <strong>Vespre:</strong> Arribada a Vilanova i la Geltrú
+                            </div>
+                        </div>
+                        
+                        <div class="place-info">
+                            <h4 class="font-bold text-gray-800 mb-2">🍽️ Parada estratègica - Burgos</h4>
+                            <p class="text-sm text-gray-600">Punt mitjà del viatge. Catedral Patrimoni de la Humanitat i centre comercial El Mirador.</p>
+                            <div class="highlight-box">
+                                <strong>Recomanació:</strong> Dinar al restaurant Mesón del Cid. Estirar les cames al voltant de la catedral (30min).
+                            </div>
+                        </div>
+                        
+                        <div class="family-tip">
+                            <strong>🏠 Tornada a casa:</strong> Sortir d'hora per evitar la calor. Parades cada 2 hores. Arribar abans de la posta de sol.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ruta del Viatge -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+                La Nostra Ruta
+            </h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="route-timeline">
+                    <div class="route-stop">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-2">Vilanova i la Geltrú (Sortida)</h3>
+                            <p class="text-gray-600 mb-2">7 d'agost - Dijous matí</p>
+                            <p class="text-sm">Inici de la nostra aventura familiar cap al nord</p>
+                        </div>
+                    </div>
+                    
+                    <div class="route-stop">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-2">Bilbao (Parada)</h3>
+                            <p class="text-gray-600 mb-2">7 d'agost - Dijous migdia</p>
+                            <p class="text-sm">Visita ràpida al Casco Viejo i descans abans de continuar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="route-stop">
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-600">
+                            <h3 class="text-xl font-bold mb-2">Santander (Base)</h3>
+                            <p class="text-gray-600 mb-2">7-11 d'agost - 4 nits</p>
+                            <p class="text-sm">Hotel Ibis - Exploració de Cantàbria</p>
+                            <div class="mt-3 text-sm text-green-700">
+                                <strong>Activitats:</strong> Cabárceno, Santillana del Mar, Bosc de Secuoyas, Liérganes
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-stop">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-2">Vilanova i la Geltrú (Tornada)</h3>
+                            <p class="text-gray-600 mb-2">11 d'agost - Dilluns</p>
+                            <p class="text-sm">Tornada a casa amb grans records</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consells per la Família -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+                Consells per al Viatge
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                    <h3 class="font-bold text-lg mb-3 text-blue-800">👩‍🦳 Per a Montse</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• Portar coixí cervical per al viatge</li>
+                        <li>• Sabates còmodes per caminar</li>
+                        <li>• Medicaments a la bossa de mà</li>
+                        <li>• Roba d'abric per als vespres</li>
+                        <li>• Càmera per immortalitzar els moments</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                    <h3 class="font-bold text-lg mb-3 text-green-800">👦 Per a Adrià</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• Carregador portàtil per al mòbil</li>
+                        <li>• Auriculars per al viatge</li>
+                        <li>• Càmera per fotos del viatge</li>
+                        <li>• Mochila per a les excursions</li>
+                        <li>• Snacks preferits per al cotxe</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-lg mb-3 text-orange-800">🚗 Per a Xavier</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• Revisar el cotxe abans del viatge</li>
+                        <li>• Apps de navegació actualitzades</li>
+                        <li>• Documentació del cotxe i assegurances</li>
+                        <li>• Planificar parades estratègiques</li>
+                        <li>• Buscar aparcaments als destins</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informació Pràctica -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+                Informació Pràctica
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">🏨 Allotjament</h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h4 class="font-semibold">Hotel Ibis Santander</h4>
+                            <p class="text-sm text-gray-600">7-11 d'agost (4 nits)</p>
+                            <p class="text-sm">Cèntric i accessible per a tota la família</p>
+                            <p class="text-sm text-blue-600">Aparcament: 12€/nit</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">🌤️ Clima Esperat</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="text-3xl">🌤️</div>
+                            <div>
+                                <p class="font-semibold">Agost a Cantàbria</p>
+                                <p class="text-sm text-gray-600">18-24°C, possible pluja</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Portar roba de pluja i capes</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">💰 Pressupost Aproximat</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span>Combustible:</span><span>200€</span></div>
+                        <div class="flex justify-between"><span>Hotel (4 nits):</span><span>300€</span></div>
+                        <div class="flex justify-between"><span>Menjar:</span><span>400€</span></div>
+                        <div class="flex justify-between"><span>Entrades:</span><span>100€</span></div>
+                        <div class="flex justify-between"><span>Aparcaments:</span><span>50€</span></div>
+                        <div class="flex justify-between font-bold border-t pt-2">
+                            <span>Total:</span><span>1.050€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">📱 Apps Recomanades</h3>
+                    <div class="space-y-2 text-sm">
+                        <div>• <strong>Google Maps:</strong> Navegació i tràfic</div>
+                        <div>• <strong>Parkopedia:</strong> Trobar aparcament</div>
+                        <div>• <strong>El Tiempo:</strong> Predicció meteorològica</div>
+                        <div>• <strong>TripAdvisor:</strong> Restaurants i opinions</div>
+                        <div>• <strong>Gasolineras España:</strong> Preus combustible</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold mb-2">Viatge Familiar al Nord</h3>
+            <p class="text-gray-400">7-11 d'agost 2025 • Aventura de Montse, Xavier i Adrià</p>
+            <p class="text-sm text-gray-500 mt-2">Des de Vilanova i la Geltrú fins a Cantàbria</p>
+        </div>
+    </footer>
+
+    <script>
+        // Funcionalitat del comptador
+        function updateCountdown() {
+            const tripDate = new Date('2025-08-07T09:00:00');
+            const now = new Date();
+            const difference = tripDate - now;
+            
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                document.getElementById('countdown-days').textContent = days;
+            } else {
+                document.getElementById('countdown-days').textContent = 'Ja!';
+            }
+        }
+        
+        // Actualitzar comptador en carregar la pàgina i cada hora
+        updateCountdown();
+        setInterval(updateCountdown, 1000 * 60 * 60);
+        
+        // Scroll suau per a enllaços interns
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
